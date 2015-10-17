@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        /*
+        Promise
+         */
+
+        //for ESC6 only
+
+        function createPromise(n){
+            return new Promise(function(resolve,reject){
+                randomPrint(n, function(err,result){
+                    if(err) reject(err);
+                    else resolve(result);
+                });
+            });
+        }
+
+        function randomPrint(n, callback){
+            var interval = ~~(Math.random() * 2000);
+
+            setTimeout(function(){
+                console.log("Input: " + n + " , interval: " + interval);
+                callback(null,{
+                    n:n,
+                    interval: interval
+                });
+            },interval);
+        }
+
+        var promise = createPromise(10);
+        var promise_1 = createPromise(100);
+        var promise_2 = createPromise(1000);
+
+        var combined_promises = Promise.all([promise, promise_1, promise_2]);
+
+        combined_promises.then(function(results){
+            console.log(results);
+            console.log(results.reduce(function(sum,result){
+                return sum + result.interval;
+            }, 0))
+        });
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('input[type="file"]').addEventListener('change', function () {
+                var pics = Array.prototype.slice.call(this.files);
+                var allPromise = Promise.all(pics.map(createPromise));
+                console.log(pics);
+                allPromise.then(function(results){
+                    updatePanel(results);
+                }, function(err){
+                    console.log(err);
+                });
+            });
+        });
+
+        function createPromise(n){
+            return new Promise(function(resolve,reject){
+                readFile(n, function(err,result){
+                    if(err) reject(err);
+                    else resolve(result);
+                });
+            });
+        }
+
+        function updatePanel(arr_data_uris) {
+            // array of data uris
+            // for Each data uri, create the image
+            var div = document.querySelector('.panel');
+            // clear the div
+            div.innerHTML = '';
+            // create an image element for each data uri
+            arr_data_uris.forEach(function (uri) {
+                createImage(uri, div);
+            });
+        }
+        // show the images on the div panel
+        function createImage(src, parent) {
+            // create the element
+            var img = document.createElement('img');
+            // set the src for the image element
+            img.src = src;
+            // add to parent
+            parent.appendChild(img);
+        }
+
+        function readFile(file, callback){
+            var filereader = new FileReader();
+
+            filereader.addEventListener('load', function(){
+                callback(null, filereader.result)
+            });
+
+            filereader.addEventListener('error', function(){
+                callback(null, filereader.error)
+            });
+
+            filereader.readAsDataURL(file);
+        };
+
+
+
+
+    </script>
+</head>
+<body>
+<input type="file" multiple/>
+<div class="panel">
+
+
+</div>
+</body>
+</html>

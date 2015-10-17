@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function fn(){
+            console.log("printing from fn()" + (new Date));
+        }
+
+        fn(); //immediately prints
+
+        setTimeout(fn,200); //prints 200 ms later
+
+        function randomPrint(n){
+            //takes number of n and prints it after a random interval
+            //todo: what is the bitwise operator and what does it to here
+            var interval = ~~Math.random() * 1000; //~~ is bitwise
+
+        }
+
+        randomPrint(1);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
